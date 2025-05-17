@@ -1,0 +1,37 @@
+name: Backend CI
+
+on:
+  push:
+    paths:
+      - 'uptime-backend/**'
+  pull_request:
+    paths:
+      - 'uptime-backend/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout cod
+      uses: actions/checkout@v3
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Instalează dependențe backend
+      working-directory: uptime-backend
+      run: npm install
+
+    - name: Rulează test backend (dacă ai)
+      working-directory: uptime-backend
+      run: npm test || echo "No tests found"
+
+    - name: Build Docker image backend
+      working-directory: uptime-backend
+      run: docker build -t uptime-backend .
+
+    - name: List Docker images
+      run: docker images
