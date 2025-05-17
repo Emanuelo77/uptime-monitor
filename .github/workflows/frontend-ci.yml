@@ -2,29 +2,29 @@ name: Frontend CI
 
 on:
   push:
-    paths:
-      - 'uptime-frontend/**'
+    branches:
+      - main
   pull_request:
-    paths:
-      - 'uptime-frontend/**'
+    branches:
+      - main
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout cod
-      uses: actions/checkout@v3
+      - name: Checkout cod
+        uses: actions/checkout@v3
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '18'
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
 
-    - name: Instalează dependențe frontend
-      working-directory: uptime-frontend
-      run: npm install
+      - name: Instalează dependențe frontend
+        working-directory: uptime-frontend
+        run: npm install
 
-    - name: Build frontend
-      working-directory: uptime-frontend
-      run: npm run build
+      - name: Build frontend
+        working-directory: uptime-frontend
+        run: npm run build
