@@ -1,5 +1,5 @@
 const express = require('express');
-const fetch = require('node-fetch'); // folosește node-fetch@2 pentru require
+const fetch = require('node-fetch'); // Folosește node-fetch@2 pentru require
 const cors = require('cors');
 
 const app = express();
@@ -17,7 +17,6 @@ const statusData = {};
 const checkSitesStatus = async () => {
   for (const site of sites) {
     try {
-      // timeout nu e suportat în node-fetch v2, așa că îl eliminăm
       const response = await fetch(site.url, { method: 'HEAD' });
       statusData[site.id] = response.ok ? 'online' : 'offline';
     } catch {
@@ -35,10 +34,17 @@ app.get('/status', (req, res) => {
   const results = sites.map(site => ({
     id: site.id,
     url: site.url,
-    status: statusData[site.id] || 'unknown',
+    status: statusData[site.id] || 'unbekannt',
   }));
-  res.json(results);
+
+  res.json({
+    linkedin: 'https://www.linkedin.com/in/emanuel-crisan',
+    sites: results
+  });
 });
 
 const PORT = process.env.PORT || 4000;
-app.listen(PORT, () => console.log(`Backend rulează pe portul ${PORT}`));
+app.listen(PORT, () => {
+  console.log(`Backend rulează pe portul ${PORT}`);
+  console.log('Profil LinkedIn:', 'https://www.linkedin.com/in/emanuel-crisan');
+});
